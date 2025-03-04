@@ -18,6 +18,7 @@ namespace WhatsAppBot.Service.Services.Ollama
         private readonly IOllamaApiClient _ollamaApiClient;
         private readonly ILogger<OllamaService> _logger;
 
+
         public OllamaService(IOllamaApiClient ollamaApiClient, ILogger<OllamaService> logger)
         {
             _logger = logger;

@@ -9,7 +9,7 @@ namespace WhatsAppBot.Service.Services.WhatsApp
 {
     public interface ITextMessageBuilder
     {
-        object BuildPayload(string message);
+        object BuildPayload(string message, string phoneNumber);
     }
 
     public class TextMessageBuilder : ITextMessageBuilder
@@ -21,12 +21,12 @@ namespace WhatsAppBot.Service.Services.WhatsApp
             _config = config;
         }
 
-        public object BuildPayload(string message)
+        public object BuildPayload(string message, string phoneNumber)
         {
             return new
             {
                 messaging_product = "whatsapp",
-                to = _config.PhoneNumber,
+                to = phoneNumber,
                 type = "text",
                 text = new { body = message }
             };

@@ -17,7 +17,7 @@ namespace WhatsAppBot.Service.Services.WhatsApp;
 
 public interface IWhatsAppBusinessService
 {
-    Task<RestResponse> SendMessageAsync(string message);
+    Task<RestResponse> SendMessageAsync(string message, string phoneNumber);
 }
 public class WhatsAppBusinessService : IWhatsAppBusinessService
 {
@@ -28,24 +28,26 @@ public class WhatsAppBusinessService : IWhatsAppBusinessService
     public WhatsAppBusinessService(
         IWhatsAppHttpClient whatsAppHttpClient,
         ITextMessageBuilder textMessageBuilder,
-        ILogger<WhatsAppBusinessService> logger) 
+        ILogger<WhatsAppBusinessService> logger)
     {
         _textMessageBuilder = textMessageBuilder;
         _whatsAppHttpClient = whatsAppHttpClient;
         _logger = logger;
     }
 
-    public async Task<RestResponse> SendMessageAsync(string message)
+
+
+    public async Task<RestResponse> SendMessageAsync(string message, string phoneNumber)
     {
         try
         {
-            var payload = _textMessageBuilder.BuildPayload(message);
+            var payload = _textMessageBuilder.BuildPayload(message, phoneNumber);
             var response = await _whatsAppHttpClient.SendAsync(payload);
 
             if (response.IsSuccessful)
-                _logger.LogInformation("Message sent successfully!"); // 👈 Ahora usa ILogger
+                _logger.LogInformation("Message sent successfully!");
             else
-                _logger.LogError("Error: {StatusCode}, {Content}", response.StatusCode, response.Content); // 👈 Mejora logging
+                _logger.LogError("Error: {StatusCode}, {Content}", response.StatusCode, response.Content);
 
             return response;
         }

@@ -12,5 +12,4 @@ public class WhatsAppConfig
 
     public string PhoneId { get; set; }
 
-    public string PhoneNumber { get; set; }
 }
