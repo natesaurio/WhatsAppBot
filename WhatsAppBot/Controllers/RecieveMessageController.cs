@@ -19,12 +19,14 @@ namespace WhatsAppBot.Controllers
         private readonly IWhatsAppBusinessService _whatsAppBusinessService;
         private readonly IPromptContextService _promptContextService;
         private readonly IOllamaService _ollamaService;
+        private readonly string _secretToken;
 
-        public RecieveMessageController(IWhatsAppBusinessService whatsAppBusinessService, IOllamaService ollamaService, IPromptContextService promptContextService)
+        public RecieveMessageController(IWhatsAppBusinessService whatsAppBusinessService, IOllamaService ollamaService, IPromptContextService promptContextService, IConfiguration configuration)
         {
             _whatsAppBusinessService = whatsAppBusinessService;
             _ollamaService = ollamaService;
             _promptContextService = promptContextService;
+            _secretToken = configuration["secretToken"];
         }
 
         //recibimos los datos de validacion via get
@@ -36,7 +38,7 @@ namespace WhatsAppBot.Controllers
             [FromQuery(Name = "hub.verify_token")] string verifyToken
             )
         {
-            if (verifyToken == "mySecretToken")
+            if (verifyToken == _secretToken)
             {
                 return challenge;
             }
